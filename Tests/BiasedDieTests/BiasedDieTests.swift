@@ -3,13 +3,6 @@ import XCTest
 
 final class BiasedDieTests: XCTestCase {
 
-    static var allTests = [
-        ("test_noData", test_noData),
-        ("test_invalidData", test_invalidData),
-        ("test_init_counts", test_init_counts),
-        ("test_init_probs", test_init_probs),
-    ]
-
     func test_noData() {
         let die = BiasedDie(counts: [])
         XCTAssertTrue(die == nil)

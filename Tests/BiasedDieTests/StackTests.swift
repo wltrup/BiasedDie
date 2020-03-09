@@ -3,14 +3,6 @@ import XCTest
 
 final class StackTests: XCTestCase {
 
-    static var allTests = [
-        ("test_isEmpty", test_isEmpty),
-        ("test_push_into_empty", test_push_into_empty),
-        ("test_push_into_non_empty", test_push_into_non_empty),
-        ("test_pop_from_empty", test_pop_from_empty),
-        ("test_pop_from_non_empty", test_pop_from_non_empty),
-    ]
-
     func test_isEmpty() {
         let s = Stack<Int>()
         XCTAssert(s.isEmpty == true)

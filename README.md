@@ -13,6 +13,10 @@ In less formal terms, imagine that you have a die with `N` faces and that each f
 
 The package lets you initialise the biased die in multiple ways, depending on the kind of data you have or want to produce.
 
+Once you initialise a die, you can sample from its distribution by calling its `next()` function, which returns a random item from the original list of *keys* (the die "faces"), with the correct probability.
+
+Note that an instance of `BiasedDie<T: Hashable>` is an *immutable value*. All you can do with one, once initialised, is to sample from it. 
+
 ```swift
 public struct BiasedDie<T: Hashable> {
     

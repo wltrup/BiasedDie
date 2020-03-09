@@ -1,26 +1,39 @@
 import Foundation
 
-// Uses the alias method to create a biased multi-sided die.
-// Based on http://www.keithschwarz.com/darts-dice-coins/
-
-public struct BiasedDie<T: Hashable> {
+/// Uses the alias method to create a biased multi-sided die.
+/// Based on http://www.keithschwarz.com/darts-dice-coins/
+///
+/// Instances of `BiasedDie<T: Hashable>` are *immutable values*. All you can do with one,
+/// once initialised, is to sample from it.
+///
+public struct BiasedDie<T: Hashable>: Hashable {
     
+    public let keys: [T]
+
+    /// Initialises an instance from a list of unique keys and their counts.
+    ///
     public init?(keysAndCounts: [T: Int]) {
         self.init(keysAndProbabilities: keysAndCounts.mapValues(Double.init))
     }
 
+    /// Initialises an instance from a list of unique keys and their counts.
+    ///
     public init?(keysAndCounts: [Dictionary<T, Int>.Element]) {
         var d: [T: Int] = [:]
         keysAndCounts.forEach { d[$0.key] = $0.value }
         self.init(keysAndCounts: d)
     }
     
+    /// Initialises an instance from a list of unique keys and their counts.
+    ///
     public init?(keysAndCounts: Dictionary<T, Int>.SubSequence) {
         var d: [T: Int] = [:]
         keysAndCounts.forEach { d[$0.key] = $0.value }
         self.init(keysAndCounts: d)
     }
 
+    /// Initialises an instance from a list of unique keys and their probabilities.
+    ///
     public init?(keysAndProbabilities: [T: Double]) {
 
         guard keysAndProbabilities.isEmpty == false else { return nil }
@@ -76,18 +89,26 @@ public struct BiasedDie<T: Hashable> {
 
     }
 
+    /// Initialises an instance from a list of unique keys and their probabilities.
+    ///
     public init?(keysAndProbabilities: [Dictionary<T, Double>.Element]) {
         var d: [T: Double] = [:]
         keysAndProbabilities.forEach { d[$0.key] = $0.value }
         self.init(keysAndProbabilities: d)
     }
 
+    /// Initialises an instance from a list of unique keys and their probabilities.
+    ///
     public init?(keysAndProbabilities: Dictionary<T, Double>.SubSequence) {
         var d: [T: Double] = [:]
         keysAndProbabilities.forEach { d[$0.key] = $0.value }
         self.init(keysAndProbabilities: d)
     }
 
+    /// Samples from the probability distribution being modeled by the biased die
+    /// on which the function is called, returning a randomly selected item from
+    /// the die's list of keys, with the correct probability.
+    ///
     public func next() -> T {
         let col = Int.random(in: 0 ..< probsTable.count)
         let toss = Double.random(in: 0 ... 1) < probsTable[col]
@@ -95,7 +116,6 @@ public struct BiasedDie<T: Hashable> {
         return keys[index]
     }
     
-    private let keys: [T]
     private let aliasTable: [Int]
     private let probsTable: [Double]
     
@@ -103,12 +123,18 @@ public struct BiasedDie<T: Hashable> {
 
 public extension BiasedDie where T == Int {
     
+    /// Initialises an instance from an array of counts.
+    /// The (0-based) array indices become their keys.
+    ///
     init?(counts: [Int]) {
         var countsD: [Int: Int] = [:]
         counts.enumerated().forEach { k, value in countsD[k] = value }
         self.init(keysAndCounts: countsD)
     }
     
+    /// Initialises an instance from an array of propabilities.
+    /// The (0-based) array indices become their keys.
+    ///
     init?(probabilities: [Double]) {
         var probsD: [Int: Double] = [:]
         probabilities.enumerated().forEach { k, value in probsD[k] = value }
@@ -116,6 +142,8 @@ public extension BiasedDie where T == Int {
     }
     
 }
+
+// MARK: - Internal API
 
 struct Stack<T> {
     
