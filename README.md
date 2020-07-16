@@ -3,7 +3,7 @@
 [![Xcode](https://img.shields.io/badge/Xcode-11-blueviolet.svg)](https://developer.apple.com/xcode)
 [![Swift](https://img.shields.io/badge/Swift-5.0-orange.svg)](https://swift.org)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/wltrup/BiasedDie)
-![GitHub](https://img.shields.io/github/license/wltrup/BiasedDie)
+![GitHub](https://img.shields.io/github/license/wltrup/BiasedDie/LICENSE)
 
 ## What
 
@@ -15,11 +15,11 @@ The package lets you initialise the biased die in multiple ways, depending on th
 
 Once you initialise a die, you can sample from its distribution by calling its `next()` function, which returns a random item from the original list of *keys* (the die "faces"), with the correct probability.
 
-Note that an instance of `BiasedDie<T: Hashable>` is an *immutable value*. All you can do with one, once initialised, is to sample from it. 
+Note that an instance of `BiasedDie<T: Hashable>` is an *immutable value*. All you can do with one, once initialised, is to sample from it.
 
 ```swift
 public struct BiasedDie<T: Hashable> {
-    
+
     public init?(keysAndCounts: [T: Int])
     public init?(keysAndCounts: [Dictionary<T, Int>.Element])
     public init?(keysAndCounts: Dictionary<T, Int>.SubSequence)
@@ -29,14 +29,14 @@ public struct BiasedDie<T: Hashable> {
     public init?(keysAndProbabilities: Dictionary<T, Double>.SubSequence)
 
     public func next() -> T
-    
+
 }
 
 public extension BiasedDie where T == Int {
-    
+
     init?(counts: [Int])
     init?(probabilities: [Double])
-    
+
 }
 ```
 
